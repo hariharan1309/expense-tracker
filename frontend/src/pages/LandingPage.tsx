@@ -9,11 +9,11 @@ import {
   PieChart,
   Wallet,
 } from "lucide-react";
-import { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "@/lib/AuthContext";
 
 const LandingPage = () => {
-  // const { isAuthenticated } = useContext(AuthContext)
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated } = useContext(AuthContext)
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <header className="border-b">
