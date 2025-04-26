@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.card-hover{
+  @apply  hover:-translate-y-1.5 hover:scale-105 duration-200;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
