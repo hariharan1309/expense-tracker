@@ -1,11 +1,6 @@
 import { Router } from "express";
+import { regHandler } from "../controllers/authControllers";
 
 const router = Router();
 
-router.post("/register", (req, res, next) => {
-  try {
-    const { name, email, password } = req.body;
-  } catch (error) {
-    next(error);
-  }
-});
+router.post("/register", regHandler);

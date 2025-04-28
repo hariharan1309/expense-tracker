@@ -1,16 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import User from "../utils/models/User";
+
+interface CustomReq extends Request {
+  user?: any;
+}
 const authHandler = async ({
   req,
   res,
   next,
 }: {
-  req: Request;
+  req: CustomReq;
   res: Response;
   next: NextFunction;
 }) => {
   try {
-    let token;
+    let token: string | undefined;
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
@@ -25,14 +30,14 @@ const authHandler = async ({
       });
     }
     const userId = jwt.verify(token, process.env.JWT_SECRET_KEY); // encoded token with our token secret key
-    // const user = await User.findById(userId.id);
-    // if (!user) {
-    //   return res.status(401).json({
-    //     success: false,
-    //     message: "You are not authorized to access this route",
-    //   });
-    // }
-    // req.user = user; // getting the user data in the req object for further operations
+    const user = await User.findById(userId.id);
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "You are not authorized to access this route",
+      });
+    }
+    req.user = user; // getting the user data in the req object for further operations
     next();
   } catch (error) {
     console.log(error);
