@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import errorHandler from "./middleware/errorhandler";
+import { connectDB } from "./utils/db";
 
 const app = express();
 
@@ -13,6 +14,9 @@ app.use("/api/auth");
 // custom error handler middleware
 app.use(errorHandler);
 
-app.listen(5000, () => {console.log("Server started on port 5000")});
+app.listen(5000, async() => {
+  console.log("Server started on port 5000");
+  await connectDB();
+});
 
 export default app;
