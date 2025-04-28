@@ -1,14 +1,14 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import errorHandler from "./middleware/errorhandler";
-import { connectDB } from "./utils/db";
+import errorHandler from "./middleware/errorhandler.js";
+import { connectDB } from "./utils/db.js";
 
 const app = express();
 
 app.use(express.json()); // to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // to parse URL-encoded bodies
 app.use(cookieParser());
-
+ 
 app.use("/api/auth");
 
 // custom error handler middleware

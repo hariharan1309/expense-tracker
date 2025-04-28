@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import User from "../utils/models/User";
+import User from "../utils/models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -31,8 +31,8 @@ export const regHandler = async ({
     let hash = await bcrypt.hash(password, salt);
     const newUser = await User.create({ name, email, password: hash });
     let userVal = newUser[0]; // getting created user;
-    let token = jwt.sign({ id: userVal._id }, process.env.JWT_SECRET_KEY, {
-      expires: "1d",
+    let token = jwt.sign({ id: userVal._id }, process.env.JWT_SECRET_KEY!, {
+      expiresIn: "1d",
     }); // signing token with user id and secret key with expiration
     return res.status(200).json({
       success: true,
