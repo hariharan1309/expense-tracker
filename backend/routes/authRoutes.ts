@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { regHandler } from "../controllers/authControllers.js";
 
-const router = Router();
+const authRouter = Router();
 
-router.post("/register", regHandler);
+authRouter.post("/register", regHandler);
+
+export default authRouter;
