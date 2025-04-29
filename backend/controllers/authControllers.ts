@@ -9,17 +9,14 @@ interface ErrorExtended extends Error {
 interface ExtendedResponse extends Response {
   status: any;
 }
-export const regHandler = async ({
-  req,
-  res,
-  next,
-}: {
-  req: Request;
-  res: ExtendedResponse;
-  next: NextFunction;
-}) => {
+export const regHandler = async (
+  req: Request,
+  res: ExtendedResponse,
+  next: NextFunction
+) => {
   try {
     //@ts-ignore
+    console.log(req);
     const { name, email, password } = req.body;
     const user = await User.findOne({ email });
     if (user) {
@@ -30,8 +27,7 @@ export const regHandler = async ({
     let salt = await bcrypt.genSalt(10);
     let hash = await bcrypt.hash(password, salt);
     const newUser = await User.create({ name, email, password: hash });
-    let userVal = newUser[0]; // getting created user;
-    let token = jwt.sign({ id: userVal._id }, process.env.JWT_SECRET_KEY!, {
+    let token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY!, {
       expiresIn: "1d",
     }); // signing token with user id and secret key with expiration
     return res.status(200).json({

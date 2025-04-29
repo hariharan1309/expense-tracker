@@ -10,6 +10,7 @@ app.use(express.json()); // to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // to parse URL-encoded bodies
 app.use(cookieParser());
 
+
 app.use("/api/auth", authRouter);
 
 // custom error handler middleware
