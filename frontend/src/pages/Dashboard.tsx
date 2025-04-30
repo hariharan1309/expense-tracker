@@ -5,9 +5,8 @@ import { AuthContext } from "../lib/AuthContext";
 import api from "../lib/api";
 import type { Expense, ExpenseStats } from "../lib/types";
 import Header from "../components/Header";
-import ExpenseForm from "../components/ExpenseForm";
+import ExpenseDrawer from "../components/ExpenseForm";
 import ExpenseList from "../components/ExpenseList";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
@@ -16,9 +15,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Plus } from "lucide-react";
 import ExpenseChart from "@/components/ExpenseChart";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -26,6 +26,9 @@ const Dashboard = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<ExpenseStats | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [expenseToEdit, setExpenseToEdit] = useState<Expense | null>(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,20 +51,39 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const handleAddExpense = async (
-    newExpense: Omit<Expense, "_id" | "userId" | "createdAt">
-  ) => {
+  const handleSaveExpense = async (expenseData: {
+    id?: string;
+    title: string;
+    amount: number;
+    category: string;
+    date: string;
+  }) => {
     try {
-      const response = await api.post("/api/expense", newExpense);
+      let response: any;
 
-      setExpenses([response.data.data, ...expenses]);
+      // If we have an ID, it's an update operation
+      if (expenseData.id) {
+        const { id, ...updateData } = expenseData;
+        response = await api.put(`/api/expense/${id}`, updateData);
+
+        // Update the expenses list
+        setExpenses(
+          expenses.map((exp) => (exp._id === id ? response.data.data : exp))
+        );
+      } else {
+        // Otherwise it's a new expense
+        response = await api.post("/api/expense", expenseData);
+        setExpenses([response.data.data, ...expenses]);
+      }
+
+      // Refresh stats
       const statsResponse = await api.get("/api/expense/stats");
       setStats(statsResponse.data.data);
 
       return true;
     } catch (err: any) {
-      console.error("Error adding expense:", err);
-      throw new Error(err.response?.data?.message || "Failed to add expense");
+      console.error("Error saving expense:", err);
+      throw new Error(err.response?.data?.message || "Failed to save expense");
     }
   };
 
@@ -79,6 +101,21 @@ const Dashboard = () => {
         err.response?.data?.message || "Failed to delete expense"
       );
     }
+  };
+
+  const handleEditExpense = (expense: Expense) => {
+    setExpenseToEdit(expense);
+    setDrawerOpen(true);
+  };
+
+  const handleAddExpense = () => {
+    setExpenseToEdit(null);
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+    setExpenseToEdit(null);
   };
 
   // Format currency
@@ -109,58 +146,62 @@ const Dashboard = () => {
     <div className="grid min-h-screen min-w-full grid-cols-1 bg-background">
       <Header />
       <main className="container flex-1 p-4 md:p-6 space-y-4 lg:space-y-6">
-        <div className="mb-8 flex items-center gap-4">
-          <p className="text-2xl font-bold tracking-tight">
-            Welcome, {user?.name}
-          </p>
-          {stats && (
-            <div>
-              <p className="text-sm font-medium">Total Expenses</p>
-              <Badge className="scale-105" >
-                {formatCurrency(stats.total)}
-              </Badge>
-            </div>
-          )}
+        <div className="mb-8 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <p className="text-2xl font-bold tracking-tight">
+              Welcome, {user?.name}
+            </p>
+            {stats && (
+              <div>
+                <p className="text-sm font-medium">Total Expenses</p>
+                <Badge className="scale-105">
+                  {formatCurrency(stats.total)}
+                </Badge>
+              </div>
+            )}
+          </div>
+          <Button
+            onClick={handleAddExpense}
+            className="flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Add Expense
+          </Button>
         </div>
+
         <ExpenseChart
           expenses={expenses}
           categoryData={stats?.byCategory || []}
           monthlyData={stats?.byMonth || []}
         />
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="md:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Add New Expense</CardTitle>
-                <CardDescription>Record your latest expense</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ExpenseForm onAddExpense={handleAddExpense} />
-              </CardContent>
-            </Card>
-          </div>
-          <div className="md:col-span-2">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle>Your Expenses</CardTitle>
-                <CardDescription>
-                  Manage and track your spending
-                </CardDescription>
 
-                {error && (
-                  <Alert variant="destructive" className="mt-4">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
-                <ExpenseList
-                  expenses={expenses}
-                  onDeleteExpense={handleDeleteExpense}
-                />
-              </CardHeader>
-            </Card>
-          </div>
-        </div>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle>Your Expenses</CardTitle>
+            <CardDescription>Manage and track your spending</CardDescription>
+
+            {error && (
+              <Alert variant="destructive" className="mt-4">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+          </CardHeader>
+          <CardContent>
+            <ExpenseList
+              expenses={expenses}
+              onDeleteExpense={handleDeleteExpense}
+              onEditExpense={handleEditExpense}
+            />
+          </CardContent>
+        </Card>
+
+        <ExpenseDrawer
+          open={drawerOpen}
+          onOpenChange={setDrawerOpen}
+          onSaveExpense={handleSaveExpense}
+          expenseToEdit={expenseToEdit}
+        />
       </main>
     </div>
   );

@@ -1,3 +1,4 @@
+// Updated ExpenseList.tsx
 "use client";
 
 import { useState } from "react";
@@ -21,16 +22,21 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, Trash2 } from "lucide-react";
+import { AlertCircle, Trash2, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 interface ExpenseListProps {
   expenses: Expense[];
   onDeleteExpense: (id: string) => Promise<void>;
+  onEditExpense: (expense: Expense) => void;
 }
 
-const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
+const ExpenseList = ({
+  expenses,
+  onDeleteExpense,
+  onEditExpense,
+}: ExpenseListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [loading, setLoading] = useState<Record<string, boolean>>({});
@@ -140,12 +146,12 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
                 <TableHead>Category</TableHead>
                 <TableHead>Amount</TableHead>
                 <TableHead>Date</TableHead>
-                <TableHead className="w-[50px]"></TableHead>
+                <TableHead className="w-[100px]">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="h-[200px] overflow-y-auto">
               {filteredExpenses.map((expense) => (
-                <TableRow key={expense._id} className="cursor-pointer">
+                <TableRow key={expense._id}>
                   <TableCell className="font-medium pl-4">
                     {expense.title}
                   </TableCell>
@@ -162,16 +168,27 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
                     {format(new Date(expense.date), "MMM d, yyyy")}
                   </TableCell>
                   <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleDelete(expense._id)}
-                      disabled={loading[expense._id]}
-                      className="!bg-background"
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => onEditExpense(expense)}
+                        className="!bg-background"
+                      >
+                        <Pencil className="h-4 w-4 text-primary" />
+                        <span className="sr-only">Edit</span>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDelete(expense._id)}
+                        disabled={loading[expense._id]}
+                        className="!bg-background"
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                        <span className="sr-only">Delete</span>
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
