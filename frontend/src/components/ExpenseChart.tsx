@@ -112,76 +112,56 @@ const ExpenseChart = ({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-center space-x-2">
-        <Button
-          variant={chartType === "category" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setChartType("category")}
-        >
-          By Category
-        </Button>
-        <Button
-          variant={chartType === "time" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setChartType("time")}
-        >
-          By Month
-        </Button>
-      </div>
-
       <Card>
         <CardContent className="p-6">
-          <div className="h-[400px] w-full">
-            {chartType === "category" ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={true}
-                    label={({ name, percent }) =>
-                      `${name}: ${(percent * 100).toFixed(0)}%`
-                    }
-                    outerRadius={150}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value) => formatCurrency(value as number)}
-                  />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={barData}
-                  margin={{
-                    top: 20,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
+          <div className="h-[400px] w-full flex items-center ">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={true}
+                  label={({ name, percent }) =>
+                    `${name}: ${(percent * 100).toFixed(0)}%`
+                  }
+                  outerRadius={150}
+                  fill="#8884d8"
+                  dataKey="value"
                 >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis tickFormatter={formatCurrency} />
-                  <Tooltip
-                    formatter={(value) => formatCurrency(value as number)}
-                  />
-                  <Legend />
-                  <Bar dataKey="amount" fill="#8884d8" name="Amount" />
-                </BarChart>
-              </ResponsiveContainer>
-            )}
+                  {pieData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  formatter={(value) => formatCurrency(value as number)}
+                />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={barData}
+                margin={{
+                  top: 20,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis tickFormatter={formatCurrency} />
+                <Tooltip
+                  formatter={(value) => formatCurrency(value as number)}
+                />
+                <Legend />
+                <Bar dataKey="amount" fill="#8884d8" name="Amount" />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </CardContent>
       </Card>

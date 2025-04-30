@@ -129,7 +129,11 @@ const Dashboard = () => {
             </div>
           )}
         </div>
-
+        <ExpenseChart
+          expenses={expenses}
+          categoryData={stats?.byCategory || []}
+          monthlyData={stats?.byMonth || []}
+        />
         <div className="grid gap-6 md:grid-cols-3">
           <div className="md:col-span-1">
             <Card>
@@ -142,48 +146,24 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </div>
-
           <div className="md:col-span-2">
             <Card>
               <CardHeader className="pb-2">
-                <Tabs defaultValue="list" className="w-full">
-                  <div className="flex items-center justify-between">
-                    <CardTitle>Your Expenses</CardTitle>
-                    <TabsList>
-                      <TabsTrigger value="list" className="text-white">
-                        List
-                      </TabsTrigger>
-                      <TabsTrigger value="chart" className="text-white">
-                        Chart
-                      </TabsTrigger>
-                    </TabsList>
-                  </div>
-                  <CardDescription>
-                    Manage and track your spending
-                  </CardDescription>
+                <CardTitle>Your Expenses</CardTitle>
+                <CardDescription>
+                  Manage and track your spending
+                </CardDescription>
 
-                  {error && (
-                    <Alert variant="destructive" className="mt-4">
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{error}</AlertDescription>
-                    </Alert>
-                  )}
-
-                  <TabsContent value="list" className="mt-4">
-                    <ExpenseList
-                      expenses={expenses}
-                      onDeleteExpense={handleDeleteExpense}
-                    />
-                  </TabsContent>
-
-                  <TabsContent value="chart" className="mt-4">
-                    <ExpenseChart
-                      expenses={expenses}
-                      categoryData={stats?.byCategory || []}
-                      monthlyData={stats?.byMonth || []}
-                    />
-                  </TabsContent>
-                </Tabs>
+                {error && (
+                  <Alert variant="destructive" className="mt-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
+                )}
+                <ExpenseList
+                  expenses={expenses}
+                  onDeleteExpense={handleDeleteExpense}
+                />
               </CardHeader>
             </Card>
           </div>
