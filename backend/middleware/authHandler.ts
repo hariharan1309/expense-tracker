@@ -33,7 +33,7 @@ const authHandler = async (
         message: "You are not authorized to access this route",
       });
     }
-    req.user = user; // getting the user data in the req object for further operations
+    req.user = { ...user, userId: user._id }; // getting the user data in the req object for further operations
     next();
   } catch (error) {
     console.log(error);
