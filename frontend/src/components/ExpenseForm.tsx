@@ -52,15 +52,14 @@ const ExpenseDrawer = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Update form when expenseToEdit changes
   useEffect(() => {
     if (expenseToEdit) {
+      console.log(expenseToEdit);
       setTitle(expenseToEdit.title);
       setAmount(expenseToEdit.amount.toString());
       setCategory(expenseToEdit.category);
       setDate(new Date(expenseToEdit.date).toISOString().split("T")[0]);
     } else {
-      // Reset form for new expense
       setTitle("");
       setAmount("");
       setCategory("food");

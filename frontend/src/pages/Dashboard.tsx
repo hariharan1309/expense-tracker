@@ -104,6 +104,7 @@ const Dashboard = () => {
   };
 
   const handleEditExpense = (expense: Expense) => {
+    console.log(expense);
     setExpenseToEdit(expense);
     setDrawerOpen(true);
   };
@@ -145,9 +146,9 @@ const Dashboard = () => {
   return (
     <div className="grid min-h-screen min-w-full grid-cols-1 bg-background">
       <Header />
-      <main className="container flex-1 p-4 md:p-6 space-y-4 lg:space-y-6">
-        <div className="mb-8 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+      <main className="container flex-1 p-6 md:p-8 lg:p-12 space-y-4 lg:space-y-6">
+        <div className="mb-8 flex sm:items-center justify-between gap-4">
+          <div className="flex max-sm:flex-col sm:items-center gap-4">
             <p className="text-2xl font-bold tracking-tight">
               Welcome, {user?.name}
             </p>

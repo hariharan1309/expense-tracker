@@ -42,9 +42,6 @@ const ExpenseChart = ({
   categoryData,
   monthlyData,
 }: ExpenseChartProps) => {
-  const [chartType, setChartType] = useState<"category" | "time">("category");
-
-  // Colors for different categories
   const COLORS = [
     "#4CAF50", // food
     "#2196F3", // transportation
@@ -55,8 +52,6 @@ const ExpenseChart = ({
     "#E91E63", // education
     "#607D8B", // other
   ];
-
-  // Format category data for pie chart
   const formatCategoryData = () => {
     return categoryData.map((item) => ({
       name: item._id.charAt(0).toUpperCase() + item._id.slice(1),
@@ -64,7 +59,6 @@ const ExpenseChart = ({
     }));
   };
 
-  // Format monthly data for bar chart
   const formatMonthlyData = () => {
     return monthlyData.map((item) => {
       const monthNames = [
@@ -89,7 +83,6 @@ const ExpenseChart = ({
     });
   };
 
-  // Format currency
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -111,9 +104,9 @@ const ExpenseChart = ({
   }
 
   return (
-    <div className=" grid grid-cols-2 items-center w-full gap-4 gap-6">
+    <div className=" grid md:grid-cols-2 items-center w-full gap-6 md:gap-8 lg:gap-10">
       <Card>
-        <CardContent className="p-6 space-y-2">
+        <CardContent className="p-3 sm:p-6 space-y-2">
           <CardTitle>Category Breakdown</CardTitle>
           <div className="h-[400px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -153,7 +146,7 @@ const ExpenseChart = ({
         </CardContent>
       </Card>
       <Card>
-        <CardContent className="p-6 space-y-2">
+        <CardContent className="p-3 sm:p-6 space-y-2">
           <CardTitle>Monthly Breakdown</CardTitle>
           <div className="h-[400px] w-full">
             <ResponsiveContainer width="100%" height="100%">

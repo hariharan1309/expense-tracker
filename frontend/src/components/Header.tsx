@@ -25,7 +25,6 @@ const Header = () => {
   };
 
   const getInitials = (name: string) => {
-    console.log(name);
     return name
       .split(" ")
       .map((n) => n[0])
@@ -34,9 +33,9 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-[2px] border-b px-4 grid w-[99vw]">
+    <header className="sticky top-0 z-50 backdrop-blur-[3px] bg-white/50 border-b px-2 sm:px-4 lg:px-8 grid w-full sm:w-[99vw]">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="text-xl font-bold text-primary">
+        <Link to="/" className="text-2xl font-extrabold text-primary">
           ExpenseTracker
         </Link>
 
@@ -53,7 +52,7 @@ const Header = () => {
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuContent className="sm:w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">
