@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import LandingPage from "./pages/LandingPage";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="*" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </>
   );
 }
