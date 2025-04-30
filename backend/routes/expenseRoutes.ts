@@ -5,6 +5,7 @@ import {
   deleteExpense,
   getExpense,
   getExpenses,
+  getExpenseStats,
   updateExpense,
 } from "../controllers/expenseControllers.js";
 
@@ -15,5 +16,6 @@ expenseRouter.get("/:id", authHandler, getExpense);
 expenseRouter.post("/", authHandler, createExpense);
 expenseRouter.put("/:id", authHandler, updateExpense);
 expenseRouter.delete("/:id", authHandler, deleteExpense);
+expenseRouter.get("/stats", authHandler, getExpenseStats);
 
 export default expenseRouter;

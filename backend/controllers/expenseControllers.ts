@@ -137,3 +137,56 @@ export const deleteExpense = async (
     next(error);
   }
 };
+
+export const getExpenseStats = async (
+  req: CustomReq,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const total = await Expense.aggregate([
+      { $match: { userId: req.user.userId } },
+      { $group: { _id: null, total: { $sum: "$amount" } } },
+    ]);
+
+    const byCategory = await Expense.aggregate([
+      { $match: { userId: req.user.userId } },
+      { $group: { _id: "$category", total: { $sum: "$amount" } } },
+      { $sort: { total: -1 } },
+    ]);
+
+    // Get expenses by month (last 6 months)
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const byMonth = await Expense.aggregate([
+      {
+        $match: {
+          userId: req.user.userId,
+          date: { $gte: sixMonthsAgo },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$date" },
+            month: { $month: "$date" },
+          },
+          total: { $sum: "$amount" },
+        },
+      },
+      { $sort: { "_id.year": 1, "_id.month": 1 } },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        total: total.length > 0 ? total[0].total : 0,
+        byCategory,
+        byMonth,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
