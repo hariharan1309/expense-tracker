@@ -9,7 +9,7 @@ authRouter.post("/login", loginHandler);
 authRouter.get("/info", authHandler, (req: CustomReq, res) => {
   res.status(200).json({
     success: true,
-    data: req.user,
+    data: req.user._doc,
   });
 });
 export default authRouter;
