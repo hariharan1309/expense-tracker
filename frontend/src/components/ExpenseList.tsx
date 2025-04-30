@@ -100,10 +100,10 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
         </div>
         <div className="w-full sm:w-48">
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger id="category" className="!bg-white !ring-0">
+            <SelectTrigger id="category" className="!bg-white !ring-1">
               <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent >
               <SelectItem value="all">All Categories</SelectItem>
               <SelectItem value="food">Food</SelectItem>
               <SelectItem value="transportation">Transportation</SelectItem>
@@ -134,7 +134,7 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Title</TableHead>
+                <TableHead className="pl-4">Title</TableHead>
                 <TableHead>Category</TableHead>
                 <TableHead>Amount</TableHead>
                 <TableHead>Date</TableHead>
@@ -144,7 +144,7 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
             <TableBody>
               {filteredExpenses.map((expense) => (
                 <TableRow key={expense._id}>
-                  <TableCell className="font-medium">{expense.title}</TableCell>
+                  <TableCell className="font-medium pl-4">{expense.title}</TableCell>
                   <TableCell>
                     <Badge
                       variant={getCategoryBadgeVariant(expense.category) as any}
@@ -163,6 +163,7 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
                       size="icon"
                       onClick={() => handleDelete(expense._id)}
                       disabled={loading[expense._id]}
+                      className="!bg-background"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                       <span className="sr-only">Delete</span>
