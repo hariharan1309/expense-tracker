@@ -33,15 +33,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  // Load user on initial render if token exists
   useEffect(() => {
     const loadUser = async () => {
       if (token) {
         try {
-          // Set token in axios headers
           api.defaults.headers.common["Authorization"] = `Bearer ${token}`
 
-          // Get current user
           const response = await api.get("/api/auth/me")
           setUser(response.data.user)
           setIsAuthenticated(true)
@@ -60,19 +57,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     loadUser()
   }, [token])
 
-  // Login user
   const login = async (email: string, password: string) => {
     try {
       const response = await api.post("/api/auth/login", { email, password })
 
-      // Set token in local storage
       localStorage.setItem("token", response.data.token)
       setToken(response.data.token)
 
-      // Set token in axios headers
       api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`
 
-      // Set user and authentication state
       setUser(response.data.user)
       setIsAuthenticated(true)
     } catch (error) {
@@ -81,19 +74,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }
 
-  // Register user
   const register = async (name: string, email: string, password: string) => {
     try {
       const response = await api.post("/api/auth/register", { name, email, password })
 
-      // Set token in local storage
       localStorage.setItem("token", response.data.token)
       setToken(response.data.token)
 
-      // Set token in axios headers
       api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`
 
-      // Set user and authentication state
       setUser(response.data.user)
       setIsAuthenticated(true)
     } catch (error) {
@@ -102,16 +91,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }
 
-  // Logout user
   const logout = () => {
-    // Remove token from local storage
     localStorage.removeItem("token")
     setToken(null)
 
-    // Remove token from axios headers
     delete api.defaults.headers.common["Authorization"]
 
-    // Reset user and authentication state
     setUser(null)
     setIsAuthenticated(false)
   }
