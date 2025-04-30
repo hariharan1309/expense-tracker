@@ -144,6 +144,7 @@ export const getExpenseStats = async (
   next: NextFunction
 ) => {
   try {
+    console.log(req);
     const total = await Expense.aggregate([
       { $match: { userId: req.user.userId } },
       { $group: { _id: null, total: { $sum: "$amount" } } },
@@ -155,7 +156,6 @@ export const getExpenseStats = async (
       { $sort: { total: -1 } },
     ]);
 
-    // Get expenses by month (last 6 months)
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 

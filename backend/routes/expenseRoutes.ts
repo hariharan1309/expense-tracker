@@ -12,10 +12,10 @@ import {
 const expenseRouter = Router();
 
 expenseRouter.get("/expenses", authHandler, getExpenses);
+expenseRouter.get("/stats", authHandler, getExpenseStats);
 expenseRouter.get("/:id", authHandler, getExpense);
 expenseRouter.post("/", authHandler, createExpense);
 expenseRouter.put("/:id", authHandler, updateExpense);
 expenseRouter.delete("/:id", authHandler, deleteExpense);
-expenseRouter.get("/stats", authHandler, getExpenseStats);
 
 export default expenseRouter;
