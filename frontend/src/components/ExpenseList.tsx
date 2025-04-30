@@ -149,7 +149,7 @@ const ExpenseList = ({
                 <TableHead className="w-[100px]">Actions</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="h-[200px] overflow-y-auto">
+            <TableBody className="">
               {filteredExpenses.map((expense) => (
                 <TableRow key={expense._id}>
                   <TableCell className="font-medium pl-4">

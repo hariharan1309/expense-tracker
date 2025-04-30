@@ -158,6 +158,7 @@ const ExpenseChart = ({
                   left: 20,
                   bottom: 5,
                 }}
+                barSize={40}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
