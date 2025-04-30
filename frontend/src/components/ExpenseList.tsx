@@ -64,6 +64,7 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
 
         toast("Expense deleted", {
           description: "Your expense has been deleted successfully.",
+          descriptionClassName: "text-primary",
         });
       } catch (err: any) {
         setError(err.message || "Failed to delete expense");
@@ -89,13 +90,14 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col gap-4 sm:flex-row">
+    <div className="space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row mt-2">
         <div className="flex-1">
           <Input
             placeholder="Search expenses..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="max-w-md"
           />
         </div>
         <div className="w-full sm:w-48">
@@ -103,7 +105,7 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
             <SelectTrigger id="category" className="!bg-white !ring-1">
               <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
-            <SelectContent >
+            <SelectContent>
               <SelectItem value="all">All Categories</SelectItem>
               <SelectItem value="food">Food</SelectItem>
               <SelectItem value="transportation">Transportation</SelectItem>
@@ -141,10 +143,12 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
                 <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="h-[200px] overflow-y-auto">
               {filteredExpenses.map((expense) => (
-                <TableRow key={expense._id}>
-                  <TableCell className="font-medium pl-4">{expense.title}</TableCell>
+                <TableRow key={expense._id} className="cursor-pointer">
+                  <TableCell className="font-medium pl-4">
+                    {expense.title}
+                  </TableCell>
                   <TableCell>
                     <Badge
                       variant={getCategoryBadgeVariant(expense.category) as any}

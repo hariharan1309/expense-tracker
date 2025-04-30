@@ -56,6 +56,7 @@ const ExpenseForm = ({ onAddExpense }: ExpenseFormProps) => {
       if (success) {
         toast("Expense added", {
           description: "Your expense has been added successfully.",
+          descriptionClassName: "text-primary",
         });
         setTitle("");
         setAmount("");
