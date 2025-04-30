@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import errorHandler from "./middleware/errorhandler.js";
 import { connectDB } from "./utils/db.js";
 import authRouter from "./routes/authRoutes.js";
+import expenseRouter from "./routes/expenseRoutes.js";
 
 const app = express();
 
@@ -10,8 +11,8 @@ app.use(express.json()); // to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // to parse URL-encoded bodies
 app.use(cookieParser());
 
-
 app.use("/api/auth", authRouter);
+app.use("/api/expense", expenseRouter);
 
 // custom error handler middleware
 app.use(errorHandler);

@@ -2,18 +2,14 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../utils/models/User.js";
 
-interface CustomReq extends Request {
+export interface CustomReq extends Request {
   user?: any;
 }
-const authHandler = async ({
-  req,
-  res,
-  next,
-}: {
-  req: CustomReq;
-  res: Response;
-  next: NextFunction;
-}) => {
+const authHandler = async (
+  req: CustomReq,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     let token: string | undefined;
     if (

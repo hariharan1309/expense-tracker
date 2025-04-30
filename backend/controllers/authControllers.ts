@@ -4,10 +4,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
-interface ErrorExtended extends Error {
+export interface ErrorExtended extends Error {
   statusCode?: number;
 }
-interface ExtendedResponse extends Response {
+export interface ExtendedResponse extends Response {
   status: any;
 }
 export const regHandler = async (
