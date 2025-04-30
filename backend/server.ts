@@ -4,9 +4,10 @@ import errorHandler from "./middleware/errorhandler.js";
 import { connectDB } from "./utils/db.js";
 import authRouter from "./routes/authRoutes.js";
 import expenseRouter from "./routes/expenseRoutes.js";
-
+import cors from "cors";
 const app = express();
 
+app.use(cors({ origin: "*" }));
 app.use(express.json()); // to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // to parse URL-encoded bodies
 app.use(cookieParser());
