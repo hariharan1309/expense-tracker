@@ -41,7 +41,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         try {
           api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
           const response = await api.get("/api/auth/info");
-          setUser(response.data.user);
+          setUser(response.data.data);
+          console.log(response.data);
           setIsAuthenticated(true);
         } catch (error) {
           console.error("Error loading user:", error);

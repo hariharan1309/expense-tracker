@@ -24,13 +24,11 @@ const Dashboard = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch expenses and stats
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
 
-        // Fetch expenses
         const expensesResponse = await api.get("/api/expense/expenses");
         setExpenses(expensesResponse.data.data);
 
@@ -65,15 +63,12 @@ const Dashboard = () => {
     }
   };
 
-  // Delete expense
   const handleDeleteExpense = async (id: string) => {
     try {
       await api.delete(`/api/expense/${id}`);
 
-      // Update expenses list
       setExpenses(expenses.filter((expense) => expense._id !== id));
 
-      // Refresh stats
       const statsResponse = await api.get("/api/expenses/stats");
       // setStats(statsResponse.data.data)
     } catch (err: any) {
@@ -114,9 +109,9 @@ const Dashboard = () => {
 
       <main className="container mx-auto flex-1 p-4 md:p-6">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold tracking-tight">
+          <p className="text-2xl font-bold tracking-tight">
             Welcome, {user?.name}
-          </h1>
+          </p>
           {/* {stats && (
             <div className="mt-4 grid gap-4 md:grid-cols-3">
               <Card>

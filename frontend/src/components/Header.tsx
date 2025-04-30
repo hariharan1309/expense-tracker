@@ -25,6 +25,7 @@ const Header = () => {
   };
 
   const getInitials = (name: string) => {
+    console.log(name);
     return name
       .split(" ")
       .map((n) => n[0])
