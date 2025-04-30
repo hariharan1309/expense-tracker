@@ -107,7 +107,7 @@ const ExpenseForm = ({ onAddExpense }: ExpenseFormProps) => {
         <div className="space-y-2">
           <Label htmlFor="category">Category</Label>
           <Select value={category} onValueChange={setCategory}>
-            <SelectTrigger id="category">
+            <SelectTrigger id="category" className="!bg-white !ring-0">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>

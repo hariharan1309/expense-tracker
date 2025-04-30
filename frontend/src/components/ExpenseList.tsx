@@ -100,7 +100,7 @@ const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
         </div>
         <div className="w-full sm:w-48">
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger>
+            <SelectTrigger id="category" className="!bg-white !ring-0">
               <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
             <SelectContent>
