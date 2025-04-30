@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../lib/AuthContext";
 import api from "../lib/api";
-import type { Expense } from "../lib/types";
+import type { Expense, ExpenseStats } from "../lib/types";
 import Header from "../components/Header";
 import ExpenseForm from "../components/ExpenseForm";
 import ExpenseList from "../components/ExpenseList";
@@ -17,13 +17,14 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
+import ExpenseChart from "@/components/ExpenseChart";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [stats, setStats] = useState<ExpenseStats | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,7 +32,9 @@ const Dashboard = () => {
 
         const expensesResponse = await api.get("/api/expense/expenses");
         setExpenses(expensesResponse.data.data);
-
+        const statsResponse = await api.get("/api/expense/stats");
+        setStats(statsResponse.data.data);
+        console.log(statsResponse.data);
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message || "Failed to fetch data");
@@ -51,10 +54,8 @@ const Dashboard = () => {
       const response = await api.post("/api/expense", newExpense);
 
       setExpenses([response.data.data, ...expenses]);
-
-      // Refresh stats
-      const statsResponse = await api.get("/api/expenses/stats");
-      // setStats(statsResponse.data.data)
+      const statsResponse = await api.get("/api/expense/stats");
+      setStats(statsResponse.data.data);
 
       return true;
     } catch (err: any) {
@@ -69,8 +70,8 @@ const Dashboard = () => {
 
       setExpenses(expenses.filter((expense) => expense._id !== id));
 
-      const statsResponse = await api.get("/api/expenses/stats");
-      // setStats(statsResponse.data.data)
+      const statsResponse = await api.get("/api/expense/stats");
+      setStats(statsResponse.data.data);
     } catch (err: any) {
       console.error("Error deleting expense:", err);
       throw new Error(
@@ -112,7 +113,7 @@ const Dashboard = () => {
           <p className="text-2xl font-bold tracking-tight">
             Welcome, {user?.name}
           </p>
-          {/* {stats && (
+          {stats && (
             <div className="mt-4 grid gap-4 md:grid-cols-3">
               <Card>
                 <CardHeader className="pb-2">
@@ -127,7 +128,7 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
             </div>
-          )} */}
+          )}
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
@@ -150,8 +151,12 @@ const Dashboard = () => {
                   <div className="flex items-center justify-between">
                     <CardTitle>Your Expenses</CardTitle>
                     <TabsList>
-                      <TabsTrigger value="list">List</TabsTrigger>
-                      {/* <TabsTrigger value="chart">Chart</TabsTrigger> */}
+                      <TabsTrigger value="list" className="text-white">
+                        List
+                      </TabsTrigger>
+                      <TabsTrigger value="chart" className="text-white">
+                        Chart
+                      </TabsTrigger>
                     </TabsList>
                   </div>
                   <CardDescription>
@@ -172,13 +177,13 @@ const Dashboard = () => {
                     />
                   </TabsContent>
 
-                  {/* <TabsContent value="chart" className="mt-4">
+                  <TabsContent value="chart" className="mt-4">
                     <ExpenseChart
                       expenses={expenses}
                       categoryData={stats?.byCategory || []}
                       monthlyData={stats?.byMonth || []}
                     />
-                  </TabsContent> */}
+                  </TabsContent>
                 </Tabs>
               </CardHeader>
             </Card>
