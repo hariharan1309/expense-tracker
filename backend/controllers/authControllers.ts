@@ -10,7 +10,7 @@ export interface ErrorExtended extends Error {
 export interface ExtendedResponse extends Response {
   status: any;
 }
-export const regHandler = async (
+export const regHandler: any = async (
   req: Request,
   res: ExtendedResponse,
   next: NextFunction
@@ -51,7 +51,7 @@ export const regHandler = async (
   }
 };
 
-export const loginHandler = async (
+export const loginHandler: any = async (
   req: Request,
   res: ExtendedResponse,
   next: NextFunction

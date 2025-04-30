@@ -5,7 +5,7 @@ import User from "../utils/models/User.js";
 export interface CustomReq extends Request {
   user?: any;
 }
-const authHandler = async (
+const authHandler: any = async (
   req: CustomReq,
   res: Response,
   next: NextFunction
