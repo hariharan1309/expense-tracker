@@ -105,10 +105,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="grid min-h-screen min-w-full grid-cols-1 bg-background">
       <Header />
-
-      <main className="container mx-auto flex-1 p-4 md:p-6">
+      <main className="container flex-1 p-4 md:p-6">
         <div className="mb-8">
           <p className="text-2xl font-bold tracking-tight">
             Welcome, {user?.name}

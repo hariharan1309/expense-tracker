@@ -34,8 +34,8 @@ const Header = () => {
   };
 
   return (
-    <header className="border-b">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header className="sticky top-0 z-50 backdrop-blur-[2px] border-b px-4 grid w-[99vw]">
+      <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="text-xl font-bold text-primary">
           ExpenseTracker
         </Link>
