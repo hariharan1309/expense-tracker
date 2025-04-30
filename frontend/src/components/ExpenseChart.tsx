@@ -15,7 +15,7 @@ import {
   Cell,
 } from "recharts";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import type { Expense } from "../lib/types";
 
 interface CategoryData {
@@ -111,10 +111,11 @@ const ExpenseChart = ({
   }
 
   return (
-    <div className="space-y-4">
+    <div className=" grid grid-cols-2 items-center w-full gap-4 gap-6">
       <Card>
-        <CardContent className="p-6">
-          <div className="h-[400px] w-full flex items-center ">
+        <CardContent className="p-6 space-y-2">
+          <CardTitle>Category Breakdown</CardTitle>
+          <div className="h-[400px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -138,10 +139,23 @@ const ExpenseChart = ({
                 </Pie>
                 <Tooltip
                   formatter={(value) => formatCurrency(value as number)}
+                  contentStyle={{
+                    backgroundColor: "#fff",
+                    border: "0",
+                    borderRadius: "4px",
+                    padding: "8px",
+                  }}
                 />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent className="p-6 space-y-2">
+          <CardTitle>Monthly Breakdown</CardTitle>
+          <div className="h-[400px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={barData}
@@ -157,6 +171,12 @@ const ExpenseChart = ({
                 <YAxis tickFormatter={formatCurrency} />
                 <Tooltip
                   formatter={(value) => formatCurrency(value as number)}
+                  contentStyle={{
+                    backgroundColor: "#fff",
+                    border: "0",
+                    borderRadius: "4px",
+                    padding: "8px",
+                  }}
                 />
                 <Legend />
                 <Bar dataKey="amount" fill="#8884d8" name="Amount" />

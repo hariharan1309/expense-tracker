@@ -70,7 +70,7 @@ const ExpenseForm = ({ onAddExpense }: ExpenseFormProps) => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-sm mx-auto">
       {error && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />

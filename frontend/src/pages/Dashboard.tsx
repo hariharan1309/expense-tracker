@@ -18,6 +18,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import ExpenseChart from "@/components/ExpenseChart";
+import { Badge } from "@/components/ui/badge";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -107,25 +108,17 @@ const Dashboard = () => {
   return (
     <div className="grid min-h-screen min-w-full grid-cols-1 bg-background">
       <Header />
-      <main className="container flex-1 p-4 md:p-6">
-        <div className="mb-8">
+      <main className="container flex-1 p-4 md:p-6 space-y-4 lg:space-y-6">
+        <div className="mb-8 flex items-center gap-4">
           <p className="text-2xl font-bold tracking-tight">
             Welcome, {user?.name}
           </p>
           {stats && (
-            <div className="mt-4 grid gap-4 md:grid-cols-3">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Total Expenses
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {formatCurrency(stats.total)}
-                  </div>
-                </CardContent>
-              </Card>
+            <div>
+              <p className="text-sm font-medium">Total Expenses</p>
+              <Badge className="scale-105" >
+                {formatCurrency(stats.total)}
+              </Badge>
             </div>
           )}
         </div>
