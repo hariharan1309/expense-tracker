@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   BarChart,
   Bar,
@@ -14,7 +13,6 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import type { Expense } from "../lib/types";
 
@@ -123,7 +121,7 @@ const ExpenseChart = ({
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {pieData.map((entry, index) => (
+                  {pieData.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}

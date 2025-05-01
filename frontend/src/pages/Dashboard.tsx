@@ -114,12 +114,6 @@ const Dashboard = () => {
     setDrawerOpen(true);
   };
 
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
-    setExpenseToEdit(null);
-  };
-
-  // Format currency
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",

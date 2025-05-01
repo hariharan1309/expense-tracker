@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon --exec tsx --env-file=.env server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node --env-file=.env.production dist/server.js"
   },
   "keywords": [],
   "author": "",
