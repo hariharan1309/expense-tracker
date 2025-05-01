@@ -25,6 +25,10 @@ const ExpenseSchema = new Schema(
         "other",
       ],
     },
+    description: {
+      type: String,
+      trim: true,
+    },
     date: {
       type: Date,
       required: [true, "Please provide a date"],

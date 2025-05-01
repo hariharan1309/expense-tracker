@@ -143,6 +143,7 @@ const ExpenseList = ({
             <TableHeader>
               <TableRow>
                 <TableHead className="pl-4">Title</TableHead>
+                <TableHead>Description</TableHead>
                 <TableHead>Category</TableHead>
                 <TableHead>Amount</TableHead>
                 <TableHead>Date</TableHead>
@@ -154,6 +155,9 @@ const ExpenseList = ({
                 <TableRow key={expense._id}>
                   <TableCell className="font-medium pl-4">
                     {expense.title}
+                  </TableCell>
+                  <TableCell>
+                    {expense?.description || "No Description"}
                   </TableCell>
                   <TableCell>
                     <Badge

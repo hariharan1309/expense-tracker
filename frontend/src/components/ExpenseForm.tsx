@@ -34,6 +34,7 @@ interface ExpenseDrawerProps {
     title: string;
     amount: number;
     category: string;
+    description?: string;
     date: string;
   }) => Promise<boolean>;
   expenseToEdit: Expense | null;
@@ -49,6 +50,7 @@ const ExpenseDrawer = ({
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("food");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -83,6 +85,7 @@ const ExpenseDrawer = ({
         amount: Number.parseFloat(amount),
         category,
         date: new Date(date).toISOString(),
+        description,
       };
 
       const success = await onSaveExpense(expenseData);
@@ -138,7 +141,15 @@ const ExpenseDrawer = ({
                 required
               />
             </div>
-
+            <div className="space-y-2">
+              <Label htmlFor="description">Description</Label>
+              <Input
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Description ..."
+              />
+            </div>
             <div className="space-y-2">
               <Label htmlFor="amount">Amount ($)</Label>
               <Input

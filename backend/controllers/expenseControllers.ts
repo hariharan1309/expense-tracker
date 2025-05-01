@@ -29,13 +29,14 @@ export const createExpense = async (
   next: NextFunction
 ) => {
   try {
-    const { title, amount, category, date } = req.body;
+    const { title, amount, category, date, description } = req.body;
 
     const expense = await Expense.create({
       title,
       amount,
       category,
       date,
+      description,
       userId: req.user.userId,
     });
 
@@ -80,7 +81,7 @@ export const updateExpense = async (
   next: NextFunction
 ) => {
   try {
-    const { title, amount, category, date } = req.body;
+    const { title, amount, category, date, description } = req.body;
 
     let expense = await Expense.findOne({
       _id: req.params.id,
@@ -95,7 +96,7 @@ export const updateExpense = async (
 
     expense = await Expense.findByIdAndUpdate(
       req.params.id,
-      { title, amount, category, date },
+      { title, amount, category, date, description },
       { new: true, runValidators: true }
     );
 
